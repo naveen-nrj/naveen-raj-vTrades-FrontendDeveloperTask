@@ -12,7 +12,19 @@ export default function OTPForm() {
   const [error, setError] = useState<string | null>(null);
   const [secondsLeft, setSecondsLeft] = useState(30); // 30 sec timer
   const [resendAvailable, setResendAvailable] = useState(false);
-  const [loading, setLoading] = useState(false); // <-- UPDATED
+  const [loading, setLoading] = useState(false);
+
+   const [email, setEmail] = useState<string>("");
+  const [storedOtp, setStoredOtp] = useState<string | null>(null);
+
+  // read localStorage only on client, build error otherwise
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("mockOtpEmail") || "";
+    const savedOtp = localStorage.getItem("mockOtp");
+
+    setEmail(savedEmail); 
+    setStoredOtp(savedOtp);
+  }, []);
 
 
   // countdown
@@ -50,9 +62,6 @@ export default function OTPForm() {
     setError("Incorrect OTP. Please try again.");     
     return;
   }
-
-  const email = localStorage.getItem("mockOtpEmail") || "";
-
  
 
   // Navigate to next step
@@ -65,7 +74,7 @@ export default function OTPForm() {
 
       <p className="text-size12 text-gray-400 mb-4">
         Enter the OTP that we have sent to your email address{" "}
-        <span className="block">{localStorage.getItem("mockOtpEmail") || "<your-mail-id>"}</span>
+        <span className="block">{email || "<your-mail-id>"}</span>
       </p>
 
       <button
