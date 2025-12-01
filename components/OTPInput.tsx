@@ -158,7 +158,9 @@ export default function OTPInput({
       {Array.from({ length }).map((_, i) => (
         <input
           key={i}
-          ref={(el) => (inputsRef.current[i] = el)}
+          ref={(el) => {
+            inputsRef.current[i] = el;
+          }}
           type="text"
           inputMode="numeric"
           pattern="[0-9]*"
